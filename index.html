@@ -48,7 +48,7 @@ label{display:block;color:var(--text2);font-size:13px;margin:12px 0 4px;font-wei
 /* Upload Area */
 .upload-area{
   border:2px dashed #333;border-radius:16px;padding:30px;text-align:center;
-  background:#0a0a0a;cursor:pointer;transition:0.3s;margin:8px 0;
+  background:#0a0a0a;cursor:pointer;transition:0.3s;margin:8px 0;position:relative;
 }
 .upload-area:hover{border-color:var(--accent);background:rgba(0,183,255,0.05);}
 .upload-area.has-file{border-color:var(--accent);background:rgba(0,183,255,0.1);}
@@ -57,6 +57,16 @@ label{display:block;color:var(--text2);font-size:13px;margin:12px 0 4px;font-wei
 .upload-area p{color:var(--text2);font-size:14px;margin-bottom:5px;}
 .upload-area .file-name{color:var(--accent);font-weight:700;font-size:13px;}
 .upload-area input[type="file"]{display:none;}
+
+/* Remove Image Button */
+.remove-img-btn{
+  position:absolute;top:10px;left:10px;
+  background:rgba(255,71,87,0.9);color:#fff;border:none;border-radius:8px;
+  padding:6px 12px;font-size:12px;cursor:pointer;display:none;
+  font-family:'Cairo',sans-serif;z-index:10;
+}
+.remove-img-btn:hover{background:#ff4757;}
+.remove-img-btn.show{display:inline-flex;}
 
 /* Image Preview */
 .img-preview{
@@ -76,6 +86,21 @@ label{display:block;color:var(--text2);font-size:13px;margin:12px 0 4px;font-wei
 }
 .progress-text{color:var(--accent);font-size:12px;text-align:center;margin-top:5px;display:none;}
 .progress-text.show{display:block;}
+
+/* Color Picker Row */
+.color-picker-row{
+  display:flex;gap:10px;align-items:center;margin:8px 0;
+}
+.color-picker-row input[type="color"]{
+  width:50px;height:45px;padding:2px;border-radius:8px;cursor:pointer;
+}
+.color-picker-row input[type="text"]{
+  flex:1;margin:0;
+}
+.color-preview-dot{
+  width:24px;height:24px;border-radius:50%;border:2px solid #333;
+  flex-shrink:0;
+}
 
 .product-item{
   display:flex;align-items:center;gap:16px;background:var(--bg2);border:1px solid var(--border);
@@ -191,6 +216,8 @@ label{display:block;color:var(--text2);font-size:13px;margin:12px 0 4px;font-wei
   .product-actions{width:100%;justify-content:center;}
   .order-controls{flex-direction:column;align-items:stretch;}
   .order-controls select{width:100%;}
+  .color-picker-row{flex-direction:column;align-items:stretch;}
+  .color-picker-row input[type="color"]{width:100%;height:50px;}
 }
 </style>
 </head>
@@ -223,6 +250,7 @@ label{display:block;color:var(--text2);font-size:13px;margin:12px 0 4px;font-wei
       <input type="hidden" id="imageUrl" value="">
       <div class="upload-area" id="mainUploadArea" onclick="document.getElementById('mainImageFile').click()">
         <input type="file" id="mainImageFile" accept="image/*" onchange="handleMainImageUpload(this)">
+        <button class="remove-img-btn" id="mainRemoveBtn" onclick="removeMainImage(event)"><i class="fas fa-trash"></i> إزالة الصورة</button>
         <i class="fas fa-cloud-upload-alt"></i>
         <p>اضغط هنا أو اسحب صورة للرفع</p>
         <p class="file-name" id="mainFileName"></p>
@@ -231,6 +259,14 @@ label{display:block;color:var(--text2);font-size:13px;margin:12px 0 4px;font-wei
         <div class="progress-text" id="mainProgressText">0%</div>
       </div>
       <p class="hint">الصورة هترفع على Cloudinary تلقائياً</p>
+      
+      <!-- Main Product Color -->
+      <label>لون المنتج الأساسي</label>
+      <div class="color-picker-row">
+        <input type="color" id="mainColorPicker" value="#00b7ff" onchange="updateMainColorHex(this.value)">
+        <input type="text" id="mainColorHex" placeholder="كود اللون (#hex)" value="#00b7ff" onchange="updateMainColorPicker(this.value)">
+        <div class="color-preview-dot" id="mainColorPreview" style="background:#00b7ff"></div>
+      </div>
       
       <label>المواصفات الأساسية</label>
       <textarea id="spec" placeholder="256GB / 12GB RAM • Dual SIM • Box + Cable"></textarea>
@@ -318,7 +354,6 @@ firebase.initializeApp(firebaseConfig);
 const db = firebase.firestore();
 
 // ===== CLOUDINARY CONFIG =====
-// ✅ FIXED: Cloud Name صح من CLOUDINARY_URL
 const CLOUDINARY_CLOUD_NAME = 'dekslgvmk';
 const CLOUDINARY_UPLOAD_PRESET = 'samsung_products';
 
@@ -344,6 +379,34 @@ function showAlert(msg, type){
   box.innerHTML = '<i class="fas fa-'+icons[type]+'"></i> '+msg;
   box.style.display = 'block';
   setTimeout(()=>{box.style.display='none';},4000);
+}
+
+// ===== MAIN COLOR PICKER =====
+function updateMainColorHex(color){
+  document.getElementById('mainColorHex').value = color;
+  document.getElementById('mainColorPreview').style.background = color;
+}
+
+function updateMainColorPicker(hex){
+  if(hex.match(/^#[0-9A-Fa-f]{6}$/)){
+    document.getElementById('mainColorPicker').value = hex;
+    document.getElementById('mainColorPreview').style.background = hex;
+  }
+}
+
+// ===== REMOVE MAIN IMAGE =====
+function removeMainImage(e){
+  e.stopPropagation(); // Prevent triggering file upload
+  
+  document.getElementById('imageUrl').value = '';
+  document.getElementById('mainImgPreview').src = '';
+  document.getElementById('mainImgPreview').classList.remove('show');
+  document.getElementById('mainUploadArea').classList.remove('has-file');
+  document.getElementById('mainFileName').textContent = '';
+  document.getElementById('mainRemoveBtn').classList.remove('show');
+  document.getElementById('mainProgressFill').style.width = '0%';
+  
+  showAlert('تم إزالة الصورة', 'info');
 }
 
 // ===== UPLOAD TO CLOUDINARY =====
@@ -410,6 +473,7 @@ function handleMainImageUpload(input){
   const progressBar = document.getElementById('mainProgressBar');
   const progressFill = document.getElementById('mainProgressFill');
   const progressText = document.getElementById('mainProgressText');
+  const removeBtn = document.getElementById('mainRemoveBtn');
   
   area.classList.add('has-file');
   fileName.textContent = file.name;
@@ -417,6 +481,7 @@ function handleMainImageUpload(input){
   preview.classList.add('show');
   progressBar.classList.add('show');
   progressText.classList.add('show');
+  removeBtn.classList.add('show'); // Show remove button
   
   uploadToCloudinary(file,
     (progress) => {
@@ -437,6 +502,7 @@ function handleMainImageUpload(input){
     (error) => {
       progressText.textContent = '❌ فشل الرفع';
       progressText.style.color = '#ff6b81';
+      removeBtn.classList.remove('show'); // Hide remove button on error
       showAlert('فشل رفع الصورة: ' + error.message, 'error');
     }
   );
@@ -459,6 +525,7 @@ function handleColorImageUpload(input, colorId){
   const progressFill = document.getElementById('color-progressfill-'+colorId);
   const progressText = document.getElementById('color-progresstext-'+colorId);
   const urlInput = document.getElementById('color-url-'+colorId);
+  const removeBtn = document.getElementById('color-remove-'+colorId);
   
   area.classList.add('has-file');
   fileName.textContent = file.name;
@@ -466,6 +533,7 @@ function handleColorImageUpload(input, colorId){
   preview.classList.add('show');
   progressBar.classList.add('show');
   progressText.classList.add('show');
+  if(removeBtn) removeBtn.classList.add('show');
   
   uploadToCloudinary(file,
     (progress) => {
@@ -485,9 +553,25 @@ function handleColorImageUpload(input, colorId){
     (error) => {
       progressText.textContent = '❌ فشل';
       progressText.style.color = '#ff6b81';
+      if(removeBtn) removeBtn.classList.remove('show');
       showAlert('فشل رفع صورة اللون: ' + error.message, 'error');
     }
   );
+}
+
+// ===== REMOVE COLOR IMAGE =====
+function removeColorImage(e, colorId){
+  e.stopPropagation();
+  
+  document.getElementById('color-url-'+colorId).value = '';
+  document.getElementById('color-preview-'+colorId).src = '';
+  document.getElementById('color-preview-'+colorId).classList.remove('show');
+  document.getElementById('color-upload-'+colorId).classList.remove('has-file');
+  document.getElementById('color-filename-'+colorId).textContent = '';
+  document.getElementById('color-remove-'+colorId).classList.remove('show');
+  document.getElementById('color-progressfill-'+colorId).style.width = '0%';
+  
+  showAlert('تم إزالة صورة اللون', 'info');
 }
 
 // ===== COLOR ROWS =====
@@ -502,9 +586,17 @@ function addColorRow(data = null){
       <input placeholder="اسم اللون" class="c-name" value="${data ? data.colorName : ''}">
       <input placeholder="السعر" class="c-price" value="${data ? data.price : ''}">
       
+      <!-- Color Picker for this color -->
+      <div class="color-picker-row">
+        <input type="color" id="color-picker-${id}" value="${data ? (data.colorHex || '#666') : '#666'}" onchange="updateColorHex('${id}', this.value)">
+        <input type="text" id="color-hex-${id}" class="c-hex" placeholder="كود اللون (#hex)" value="${data ? (data.colorHex || '#666') : '#666'}" onchange="updateColorPicker('${id}', this.value)">
+        <div class="color-preview-dot" id="color-preview-dot-${id}" style="background:${data ? (data.colorHex || '#666') : '#666'}"></div>
+      </div>
+      
       <input type="hidden" id="color-url-${id}" class="c-image-hidden" value="${data ? data.image : ''}">
       <div class="upload-area" id="color-upload-${id}" onclick="document.getElementById('color-file-${id}').click()">
         <input type="file" id="color-file-${id}" accept="image/*" onchange="handleColorImageUpload(this,'${id}')">
+        <button class="remove-img-btn" id="color-remove-${id}" onclick="removeColorImage(event,'${id}')"><i class="fas fa-trash"></i> إزالة</button>
         <i class="fas fa-cloud-upload-alt"></i>
         <p>رفع صورة اللون</p>
         <p class="file-name" id="color-filename-${id}"></p>
@@ -514,7 +606,6 @@ function addColorRow(data = null){
       </div>
       
       <input placeholder="المواصفات" class="c-spec" value="${data ? data.spec : ''}">
-      <input placeholder="كود اللون (#hex)" class="c-hex" value="${data ? (data.colorHex || '#666') : '#666'}">
     </div>
     <button class="btn btn-danger" onclick="document.getElementById('color-${id}').remove()"><i class="fas fa-trash"></i></button>
   `;
@@ -524,13 +615,28 @@ function addColorRow(data = null){
     setTimeout(() => {
       const preview = document.getElementById('color-preview-'+id);
       const area = document.getElementById('color-upload-'+id);
+      const removeBtn = document.getElementById('color-remove-'+id);
       if(preview && area){
         preview.src = data.image;
         preview.classList.add('show');
         area.classList.add('has-file');
         document.getElementById('color-filename-'+id).textContent = 'صورة محفوظة';
+        if(removeBtn) removeBtn.classList.add('show');
       }
     }, 100);
+  }
+}
+
+// ===== UPDATE COLOR PICKER =====
+function updateColorHex(id, color){
+  document.getElementById('color-hex-'+id).value = color;
+  document.getElementById('color-preview-dot-'+id).style.background = color;
+}
+
+function updateColorPicker(id, hex){
+  if(hex.match(/^#[0-9A-Fa-f]{6}$/)){
+    document.getElementById('color-picker-'+id).value = hex;
+    document.getElementById('color-preview-dot-'+id).style.background = hex;
   }
 }
 
@@ -543,11 +649,19 @@ function resetForm(){
   document.getElementById('spec').value = '';
   document.getElementById('colorsContainer').innerHTML = '';
   
+  // Reset main color
+  document.getElementById('mainColorPicker').value = '#00b7ff';
+  document.getElementById('mainColorHex').value = '#00b7ff';
+  document.getElementById('mainColorPreview').style.background = '#00b7ff';
+  
+  // Reset main image
   const mainArea = document.getElementById('mainUploadArea');
   const mainPreview = document.getElementById('mainImgPreview');
+  const mainRemoveBtn = document.getElementById('mainRemoveBtn');
   mainArea.classList.remove('has-file');
   mainPreview.classList.remove('show');
   mainPreview.src = '';
+  mainRemoveBtn.classList.remove('show');
   document.getElementById('mainFileName').textContent = '';
   document.getElementById('mainProgressFill').style.width = '0%';
   
@@ -564,6 +678,7 @@ function saveProduct(){
   const price = document.getElementById('price').value.trim();
   const image = document.getElementById('imageUrl').value.trim();
   const spec = document.getElementById('spec').value.trim();
+  const mainColorHex = document.getElementById('mainColorHex').value.trim();
   
   if(!name){showAlert('اكتب اسم المنتج', 'error'); return;}
   
@@ -592,6 +707,7 @@ function saveProduct(){
     price: price,
     image: image,
     spec: spec,
+    mainColorHex: mainColorHex || '#00b7ff',
     colors: colors.length > 0 ? colors : null,
     updatedAt: firebase.firestore.FieldValue.serverTimestamp()
   };
@@ -639,12 +755,20 @@ function editProduct(id){
   document.getElementById('imageUrl').value = p.image || '';
   document.getElementById('spec').value = p.spec || '';
   
+  // Set main color
+  const mainColor = p.mainColorHex || '#00b7ff';
+  document.getElementById('mainColorPicker').value = mainColor;
+  document.getElementById('mainColorHex').value = mainColor;
+  document.getElementById('mainColorPreview').style.background = mainColor;
+  
   if(p.image){
     const mainArea = document.getElementById('mainUploadArea');
     const mainPreview = document.getElementById('mainImgPreview');
+    const mainRemoveBtn = document.getElementById('mainRemoveBtn');
     mainPreview.src = p.image;
     mainPreview.classList.add('show');
     mainArea.classList.add('has-file');
+    mainRemoveBtn.classList.add('show');
     document.getElementById('mainFileName').textContent = 'صورة محفوظة';
   }
   
@@ -673,6 +797,7 @@ function duplicateProduct(id){
     price: p.price || '',
     image: p.image || '',
     spec: p.spec || '',
+    mainColorHex: p.mainColorHex || '#00b7ff',
     colors: p.colors || null,
     createdAt: firebase.firestore.FieldValue.serverTimestamp(),
     sortOrder: Date.now()
@@ -697,6 +822,7 @@ function previewProduct(){
   const price = document.getElementById('price').value.trim();
   const image = document.getElementById('imageUrl').value.trim();
   const spec = document.getElementById('spec').value.trim();
+  const mainColorHex = document.getElementById('mainColorHex').value.trim() || '#00b7ff';
   
   const colorRows = document.querySelectorAll('.color-row');
   const colors = [];
@@ -728,8 +854,14 @@ function previewProduct(){
   html += `<div class="price">${displayPrice} جنيه</div>`;
   if(displaySpec) html += `<div class="spec">${displaySpec}</div>`;
   
+  // Show main color
+  html += `<div class="preview-colors">`;
+  html += `<div class="preview-color">
+    <div class="preview-color-dot" style="background:${mainColorHex}"></div>
+    <span>اللون الأساسي</span>
+  </div>`;
+  
   if(colors.length > 0){
-    html += '<div class="preview-colors">';
     colors.forEach(c => {
       html += `<div class="preview-color">
         <div class="preview-color-dot" style="background:${c.colorHex}"></div>
@@ -737,8 +869,8 @@ function previewProduct(){
         <span style="color:var(--accent)">${c.price} ج</span>
       </div>`;
     });
-    html += '</div>';
   }
+  html += '</div>';
   html += '</div>';
   
   document.getElementById('previewBody').innerHTML = html;
