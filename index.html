@@ -318,7 +318,8 @@ firebase.initializeApp(firebaseConfig);
 const db = firebase.firestore();
 
 // ===== CLOUDINARY CONFIG =====
-const CLOUDINARY_CLOUD_NAME = '453a34e4ff6b796c13037c91545e98';
+// ✅ FIXED: Cloud Name صح من CLOUDINARY_URL
+const CLOUDINARY_CLOUD_NAME = 'dekslgvmk';
 const CLOUDINARY_UPLOAD_PRESET = 'samsung_products';
 
 // ===== STATE =====
@@ -365,15 +366,28 @@ function uploadToCloudinary(file, onProgress, onComplete, onError){
   
   xhr.addEventListener('load', () => {
     if(xhr.status === 200){
-      const response = JSON.parse(xhr.responseText);
-      onComplete(response.secure_url);
+      try {
+        const response = JSON.parse(xhr.responseText);
+        if(response.secure_url){
+          onComplete(response.secure_url);
+        } else {
+          onError(new Error('No secure_url in response'));
+        }
+      } catch(e) {
+        onError(new Error('Invalid JSON response'));
+      }
     } else {
-      onError(new Error('Upload failed: ' + xhr.statusText));
+      try {
+        const error = JSON.parse(xhr.responseText);
+        onError(new Error(error.error?.message || 'Upload failed: ' + xhr.status));
+      } catch(e) {
+        onError(new Error('Upload failed: ' + xhr.status + ' ' + xhr.statusText));
+      }
     }
   });
   
   xhr.addEventListener('error', () => {
-    onError(new Error('Network error'));
+    onError(new Error('Network error - Check CORS or internet connection'));
   });
   
   xhr.open('POST', url);
