@@ -7,217 +7,459 @@
 <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 <style>
-:root{--accent:#00b7ff;--accent2:#00e5ff;--gold:#ffd700;--bg:#050505;--bg2:#0a0a0a;--card:#0e0e0e;--border:#1f1f1f;--text:#e8e8e8;--text2:#a0a0a0;--text3:#666;}
-*{margin:0;padding:0;box-sizing:border-box;}
-body{font-family:'Cairo',sans-serif;background:var(--bg);color:var(--text);padding:20px;line-height:1.7;}
-.container{max-width:1000px;margin:auto;}
-h1{color:var(--accent);font-size:28px;margin-bottom:30px;display:flex;align-items:center;gap:12px;}
-h1 i{font-size:24px;}
-h2{font-size:20px;color:#fff;margin:30px 0 15px;display:flex;align-items:center;gap:10px;}
-h2 i{color:var(--accent);}
-
-.card{background:var(--card);border:1px solid var(--border);border-radius:20px;padding:25px;margin-bottom:25px;}
-input,textarea,select{
-  width:100%;padding:14px 16px;margin:8px 0;border-radius:12px;
-  border:1px solid #333;background:#111;color:#fff;font-family:'Cairo',sans-serif;font-size:15px;
-  transition:0.3s;
+:root{
+  --samsung-blue:#1428A0;
+  --samsung-blue-light:#1E3BD8;
+  --samsung-cyan:#00A9E0;
+  --samsung-black:#000000;
+  --surface:#0C0C0C;
+  --card:#111111;
+  --elevated:#1C1C1E;
+  --border:#2C2C2E;
+  --border-light:#3A3A3C;
+  --text:#F5F5F7;
+  --text-secondary:#8E8E93;
+  --text-tertiary:#636366;
+  --success:#00C853;
+  --danger:#FF3B30;
+  --warning:#FF9500;
 }
-input:focus,textarea:focus,select:focus{outline:none;border-color:var(--accent);box-shadow:0 0 15px rgba(0,183,255,0.1);}
+
+*{margin:0;padding:0;box-sizing:border-box;}
+
+body{
+  font-family:'Cairo',sans-serif;
+  background:var(--samsung-black);
+  color:var(--text);
+  padding:20px;
+  line-height:1.6;
+  -webkit-font-smoothing:antialiased;
+}
+
+.container{max-width:1000px;margin:auto;}
+
+h1{
+  color:var(--text);
+  font-size:26px;
+  margin-bottom:32px;
+  display:flex;
+  align-items:center;
+  gap:12px;
+  font-weight:800;
+  letter-spacing:-0.5px;
+}
+h1 i{
+  font-size:22px;
+  color:var(--samsung-blue);
+  background:var(--elevated);
+  width:44px;height:44px;
+  display:flex;align-items:center;justify-content:center;
+  border-radius:12px;
+  border:1px solid var(--border);
+}
+
+h2{
+  font-size:18px;
+  color:var(--text);
+  margin:28px 0 14px;
+  display:flex;
+  align-items:center;
+  gap:10px;
+  font-weight:700;
+}
+h2 i{color:var(--samsung-cyan);font-size:16px;}
+
+.card{
+  background:var(--card);
+  border:1px solid var(--border);
+  border-radius:16px;
+  padding:24px;
+  margin-bottom:20px;
+  transition:border-color 0.2s;
+}
+.card:hover{border-color:var(--border-light);}
+
+input,textarea,select{
+  width:100%;
+  padding:13px 15px;
+  margin:6px 0;
+  border-radius:10px;
+  border:1px solid var(--border);
+  background:var(--surface);
+  color:var(--text);
+  font-family:'Cairo',sans-serif;
+  font-size:14px;
+  transition:all 0.2s;
+}
+input:focus,textarea:focus,select:focus{
+  outline:none;
+  border-color:var(--samsung-blue);
+  box-shadow:0 0 0 3px rgba(20,40,160,0.15);
+}
 textarea{min-height:80px;resize:vertical;}
-label{display:block;color:var(--text2);font-size:13px;margin:12px 0 4px;font-weight:600;}
-.hint{color:#666;font-size:12px;margin-top:4px;}
+
+label{
+  display:block;
+  color:var(--text-secondary);
+  font-size:12px;
+  margin:14px 0 8px;
+  font-weight:700;
+  text-transform:uppercase;
+  letter-spacing:0.5px;
+}
+.hint{
+  color:var(--text-tertiary);
+  font-size:12px;
+  margin-top:4px;
+}
 
 .btn{
-  display:inline-flex;align-items:center;gap:10px;padding:14px 28px;border-radius:12px;
-  border:none;font-family:'Cairo',sans-serif;font-size:15px;font-weight:700;cursor:pointer;
-  transition:0.3s;margin-top:10px;
+  display:inline-flex;
+  align-items:center;
+  gap:8px;
+  padding:12px 24px;
+  border-radius:10px;
+  border:none;
+  font-family:'Cairo',sans-serif;
+  font-size:14px;
+  font-weight:700;
+  cursor:pointer;
+  transition:all 0.2s;
+  margin-top:8px;
 }
-.btn-primary{background:linear-gradient(135deg,var(--accent),var(--accent2));color:#000;box-shadow:0 4px 20px rgba(0,183,255,0.25);}
-.btn-primary:hover{transform:translateY(-2px);box-shadow:0 8px 30px rgba(0,183,255,0.35);}
-.btn-danger{background:linear-gradient(135deg,#ff4757,#ff6b81);color:#fff;}
-.btn-danger:hover{transform:translateY(-2px);box-shadow:0 8px 25px rgba(255,71,87,0.3);}
-.btn-secondary{background:var(--bg2);color:var(--text);border:1px solid var(--border);}
-.btn-secondary:hover{border-color:var(--accent);color:var(--accent);}
-.btn-success{background:linear-gradient(135deg,#25d366,#2ecc71);color:#fff;}
-.btn-success:hover{transform:translateY(-2px);box-shadow:0 8px 25px rgba(37,211,102,0.3);}
-.btn-warning{background:linear-gradient(135deg,#f39c12,#e67e22);color:#fff;}
-.btn-warning:hover{transform:translateY(-2px);box-shadow:0 8px 25px rgba(243,156,18,0.3);}
-.btn-sm{padding:8px 16px;font-size:13px;margin:0;}
-.btn-xs{padding:6px 12px;font-size:11px;margin:0;}
+.btn:active{transform:scale(0.97);}
 
-/* Upload Area */
-.upload-area{
-  border:2px dashed #333;border-radius:16px;padding:30px;text-align:center;
-  background:#0a0a0a;cursor:pointer;transition:0.3s;margin:8px 0;position:relative;
+.btn-primary{
+  background:var(--samsung-blue);
+  color:#fff;
 }
-.upload-area:hover{border-color:var(--accent);background:rgba(0,183,255,0.05);}
-.upload-area.has-file{border-color:var(--accent);background:rgba(0,183,255,0.1);}
-.upload-area i{font-size:32px;color:var(--text3);margin-bottom:10px;}
-.upload-area.has-file i{color:var(--accent);}
-.upload-area p{color:var(--text2);font-size:14px;margin-bottom:5px;}
-.upload-area .file-name{color:var(--accent);font-weight:700;font-size:13px;}
+.btn-primary:hover{background:var(--samsung-blue-light);}
+
+.btn-danger{
+  background:transparent;
+  color:var(--danger);
+  border:1px solid rgba(255,59,48,0.3);
+}
+.btn-danger:hover{background:rgba(255,59,48,0.1);border-color:var(--danger);}
+
+.btn-secondary{
+  background:var(--elevated);
+  color:var(--text);
+  border:1px solid var(--border);
+}
+.btn-secondary:hover{border-color:var(--text-secondary);color:var(--text);}
+
+.btn-success{
+  background:transparent;
+  color:var(--success);
+  border:1px solid rgba(0,200,83,0.3);
+}
+.btn-success:hover{background:rgba(0,200,83,0.1);}
+
+.btn-warning{
+  background:transparent;
+  color:var(--warning);
+  border:1px solid rgba(255,149,0,0.3);
+}
+.btn-warning:hover{background:rgba(255,149,0,0.1);}
+
+.btn-sm{padding:8px 14px;font-size:12px;margin:0;}
+.btn-xs{padding:5px 10px;font-size:11px;margin:0;}
+
+/* ===== SAMSUNG COLOR SWATCHES ===== */
+.color-swatches{
+  display:flex;
+  flex-wrap:wrap;
+  gap:10px;
+  margin:8px 0;
+}
+.color-swatch{
+  position:relative;
+  cursor:pointer;
+  transition:transform 0.2s;
+}
+.color-swatch:hover{transform:scale(1.1);}
+.color-swatch input{
+  position:absolute;
+  opacity:0;
+  width:0;height:0;
+}
+.swatch-circle{
+  width:36px;height:36px;
+  border-radius:50%;
+  border:2px solid var(--border);
+  transition:all 0.2s;
+  position:relative;
+  display:flex;align-items:center;justify-content:center;
+}
+.color-swatch input:checked + .swatch-circle{
+  border-color:var(--samsung-blue);
+  box-shadow:0 0 0 3px rgba(20,40,160,0.3);
+  transform:scale(1.1);
+}
+.color-swatch input:checked + .swatch-circle::after{
+  content:'\f00c';
+  font-family:'Font Awesome 6 Free';
+  font-weight:900;
+  font-size:12px;
+  color:#fff;
+  text-shadow:0 1px 3px rgba(0,0,0,0.5);
+}
+.swatch-label{
+  font-size:10px;
+  color:var(--text-tertiary);
+  text-align:center;
+  margin-top:4px;
+  max-width:50px;
+  overflow:hidden;
+  text-overflow:ellipsis;
+  white-space:nowrap;
+}
+
+/* Selected color display */
+.selected-color-info{
+  display:flex;
+  align-items:center;
+  gap:10px;
+  margin-top:10px;
+  padding:10px 14px;
+  background:var(--surface);
+  border-radius:10px;
+  border:1px solid var(--border);
+}
+.selected-color-dot{
+  width:24px;height:24px;
+  border-radius:50%;
+  border:2px solid var(--border);
+  flex-shrink:0;
+}
+.selected-color-name{
+  font-size:13px;
+  color:var(--text-secondary);
+  font-weight:600;
+}
+.selected-color-hex{
+  font-size:11px;
+  color:var(--text-tertiary);
+  font-family:monospace;
+  margin-right:auto;
+}
+
+/* ===== UPLOAD AREA ===== */
+.upload-area{
+  border:2px dashed var(--border);
+  border-radius:12px;
+  padding:28px;
+  text-align:center;
+  background:var(--surface);
+  cursor:pointer;
+  transition:all 0.2s;
+  margin:6px 0;
+  position:relative;
+}
+.upload-area:hover{
+  border-color:var(--samsung-blue);
+  background:rgba(20,40,160,0.05);
+}
+.upload-area.has-file{
+  border-color:var(--samsung-blue);
+  border-style:solid;
+  background:rgba(20,40,160,0.08);
+}
+.upload-area i{
+  font-size:28px;
+  color:var(--text-tertiary);
+  margin-bottom:8px;
+  transition:color 0.2s;
+}
+.upload-area:hover i{color:var(--samsung-blue);}
+.upload-area.has-file i{color:var(--samsung-cyan);}
+.upload-area p{color:var(--text-secondary);font-size:13px;margin-bottom:4px;}
+.upload-area .file-name{color:var(--samsung-cyan);font-weight:700;font-size:12px;}
 .upload-area input[type="file"]{display:none;}
 
-/* Remove Image Button */
 .remove-img-btn{
-  position:absolute;top:10px;left:10px;
-  background:rgba(255,71,87,0.9);color:#fff;border:none;border-radius:8px;
-  padding:6px 12px;font-size:12px;cursor:pointer;display:none;
-  font-family:'Cairo',sans-serif;z-index:10;
+  position:absolute;
+  top:10px;left:10px;
+  background:var(--danger);
+  color:#fff;border:none;border-radius:8px;
+  padding:5px 10px;font-size:11px;cursor:pointer;
+  display:none;font-family:'Cairo',sans-serif;z-index:10;
 }
-.remove-img-btn:hover{background:#ff4757;}
 .remove-img-btn.show{display:inline-flex;}
 
-/* Image Preview */
 .img-preview{
-  width:100%;max-width:200px;height:140px;object-fit:cover;border-radius:12px;
+  width:100%;max-width:180px;height:120px;object-fit:cover;border-radius:10px;
   border:1px solid var(--border);margin:10px auto;display:none;
 }
 .img-preview.show{display:block;}
 
-/* Progress Bar */
 .progress-bar{
-  width:100%;height:6px;background:#222;border-radius:3px;margin:10px 0;overflow:hidden;display:none;
+  width:100%;height:4px;background:var(--elevated);border-radius:2px;
+  margin:10px 0;overflow:hidden;display:none;
 }
 .progress-bar.show{display:block;}
 .progress-bar-fill{
-  height:100%;background:linear-gradient(90deg,var(--accent),var(--accent2));
-  border-radius:3px;transition:width 0.3s;width:0%;
+  height:100%;background:var(--samsung-blue);border-radius:2px;
+  transition:width 0.3s;width:0%;
 }
-.progress-text{color:var(--accent);font-size:12px;text-align:center;margin-top:5px;display:none;}
+.progress-text{color:var(--samsung-cyan);font-size:11px;text-align:center;margin-top:4px;display:none;}
 .progress-text.show{display:block;}
 
-/* Color Picker Row */
-.color-picker-row{
-  display:flex;gap:10px;align-items:center;margin:8px 0;
-}
-.color-picker-row input[type="color"]{
-  width:50px;height:45px;padding:2px;border-radius:8px;cursor:pointer;
-}
-.color-picker-row input[type="text"]{
-  flex:1;margin:0;
-}
-.color-preview-dot{
-  width:24px;height:24px;border-radius:50%;border:2px solid #333;
-  flex-shrink:0;
-}
-
+/* ===== PRODUCT ITEM ===== */
 .product-item{
-  display:flex;align-items:center;gap:16px;background:var(--bg2);border:1px solid var(--border);
-  border-radius:16px;padding:16px;margin-bottom:12px;transition:0.3s;
+  display:flex;align-items:center;gap:14px;
+  background:var(--surface);
+  border:1px solid var(--border);
+  border-radius:14px;padding:14px;
+  margin-bottom:10px;transition:all 0.2s;
 }
-.product-item:hover{border-color:rgba(0,183,255,0.3);}
-.product-item img{width:70px;height:70px;object-fit:cover;border-radius:12px;background:#111;}
+.product-item:hover{
+  border-color:var(--border-light);
+  transform:translateY(-1px);
+}
+.product-item img{
+  width:60px;height:60px;object-fit:cover;
+  border-radius:10px;background:var(--card);
+}
 .product-info{flex:1;}
-.product-info h4{font-size:18px;color:#fff;margin-bottom:4px;}
-.product-info p{color:var(--text2);font-size:14px;}
-.product-actions{display:flex;gap:8px;flex-wrap:wrap;}
-.product-actions button{padding:10px 18px;font-size:13px;margin:0;}
+.product-info h4{font-size:16px;color:var(--text);margin-bottom:2px;font-weight:700;}
+.product-info p{color:var(--text-secondary);font-size:13px;}
+.product-actions{display:flex;gap:6px;flex-wrap:wrap;}
+.product-actions button{padding:8px 14px;font-size:12px;margin:0;}
 
+/* ===== COLOR ROW ===== */
 .color-row{
-  display:flex;gap:10px;align-items:flex-start;background:#0a0a0a;
-  border:1px solid #222;border-radius:12px;padding:15px;margin:10px 0;
+  display:flex;gap:10px;align-items:flex-start;
+  background:var(--surface);
+  border:1px solid var(--border);border-radius:12px;
+  padding:14px;margin:8px 0;
 }
+.color-row > div:first-child{flex:1;display:flex;flex-direction:column;gap:6px;}
 .color-row input{flex:1;margin:0;}
-.color-row .upload-area{padding:15px;flex:1;}
-.color-row .upload-area i{font-size:20px;}
-.color-row .upload-area p{font-size:12px;}
-.color-row .btn{padding:10px 14px;font-size:12px;margin:0;}
+.color-row .upload-area{padding:18px;}
+.color-row .upload-area i{font-size:18px;}
+.color-row .upload-area p{font-size:11px;}
+.color-row .btn{padding:8px 12px;font-size:11px;margin:0;}
 
+/* ===== ALERTS ===== */
 .alert{
-  padding:16px 20px;border-radius:12px;margin-bottom:20px;font-weight:600;display:none;
+  padding:14px 18px;border-radius:10px;margin-bottom:18px;
+  font-weight:700;font-size:14px;display:none;
+  border:1px solid transparent;
 }
-.alert-success{background:rgba(37,211,102,0.1);border:1px solid rgba(37,211,102,0.3);color:#25d366;}
-.alert-error{background:rgba(255,71,87,0.1);border:1px solid rgba(255,71,87,0.3);color:#ff6b81;}
-.alert-info{background:rgba(0,183,255,0.1);border:1px solid rgba(0,183,255,0.3);color:var(--accent);}
+.alert-success{background:rgba(0,200,83,0.08);border-color:rgba(0,200,83,0.2);color:var(--success);}
+.alert-error{background:rgba(255,59,48,0.08);border-color:rgba(255,59,48,0.2);color:var(--danger);}
+.alert-info{background:rgba(0,169,224,0.08);border-color:rgba(0,169,224,0.2);color:var(--samsung-cyan);}
 
-.tabs{display:flex;gap:8px;margin-bottom:25px;border-bottom:1px solid var(--border);padding-bottom:15px;flex-wrap:wrap;}
-.tab{padding:12px 24px;border-radius:12px;background:var(--bg2);border:1px solid var(--border);color:var(--text2);cursor:pointer;transition:0.3s;font-weight:600;}
-.tab.active{background:var(--accent);color:#000;border-color:var(--accent);}
+/* ===== TABS ===== */
+.tabs{
+  display:flex;gap:6px;margin-bottom:22px;
+  border-bottom:1px solid var(--border);
+  padding-bottom:14px;flex-wrap:wrap;
+}
+.tab{
+  padding:10px 20px;border-radius:10px;
+  background:var(--surface);
+  border:1px solid var(--border);
+  color:var(--text-secondary);
+  cursor:pointer;transition:all 0.2s;
+  font-weight:700;font-size:14px;
+}
+.tab:hover{color:var(--text);border-color:var(--border-light);}
+.tab.active{
+  background:var(--samsung-blue);
+  color:#fff;border-color:var(--samsung-blue);
+}
 .tab-content{display:none;}
 .tab-content.active{display:block;}
 
-.empty-state{text-align:center;padding:60px 20px;color:var(--text2);}
-.empty-state i{font-size:48px;color:var(--text3);margin-bottom:16px;}
+.empty-state{text-align:center;padding:50px 20px;color:var(--text-secondary);}
+.empty-state i{font-size:40px;color:var(--text-tertiary);margin-bottom:12px;}
 
-/* Search Bar */
-.search-box{
-  display:flex;gap:10px;margin-bottom:20px;
-}
-.search-box input{
-  flex:1;margin:0;
-}
+.search-box{display:flex;gap:8px;margin-bottom:16px;}
+.search-box input{flex:1;margin:0;}
 
-/* Order Controls */
 .order-controls{
-  display:flex;gap:8px;align-items:center;margin-bottom:15px;
+  display:flex;gap:8px;align-items:center;margin-bottom:14px;
 }
 .order-controls select{
-  width:auto;padding:10px 16px;margin:0;
+  width:auto;padding:8px 14px;margin:0;font-size:13px;
 }
 
-/* Preview Modal */
+/* ===== MODAL ===== */
 .modal-overlay{
   display:none;position:fixed;top:0;left:0;right:0;bottom:0;
-  background:rgba(0,0,0,0.85);z-index:1000;justify-content:center;align-items:center;
-  padding:20px;
+  background:rgba(0,0,0,0.9);z-index:1000;
+  justify-content:center;align-items:center;padding:20px;
 }
 .modal-overlay.active{display:flex;}
 .modal-content{
-  background:var(--card);border:1px solid var(--border);border-radius:20px;
-  max-width:500px;width:100%;max-height:90vh;overflow-y:auto;padding:30px;
+  background:var(--card);border:1px solid var(--border);border-radius:16px;
+  max-width:480px;width:100%;max-height:90vh;overflow-y:auto;padding:24px;
 }
 .modal-header{
-  display:flex;justify-content:space-between;align-items:center;margin-bottom:20px;
+  display:flex;justify-content:space-between;align-items:center;margin-bottom:18px;
 }
-.modal-header h3{color:var(--accent);font-size:22px;}
+.modal-header h3{color:var(--text);font-size:20px;font-weight:800;}
 .modal-close{
-  background:none;border:none;color:var(--text2);font-size:24px;cursor:pointer;
+  background:var(--surface);border:1px solid var(--border);
+  color:var(--text-secondary);width:36px;height:36px;
+  border-radius:10px;font-size:18px;cursor:pointer;
+  display:flex;align-items:center;justify-content:center;
+  transition:all 0.2s;
 }
-.modal-close:hover{color:#fff;}
+.modal-close:hover{color:var(--text);border-color:var(--text-secondary);}
 
-/* Preview Card */
 .preview-card{
-  background:var(--bg2);border:1px solid var(--border);border-radius:16px;padding:20px;text-align:center;
+  background:var(--surface);border:1px solid var(--border);
+  border-radius:14px;padding:18px;text-align:center;
 }
 .preview-card img{
-  width:100%;max-width:250px;height:auto;border-radius:12px;margin-bottom:15px;
+  width:100%;max-width:220px;height:auto;border-radius:12px;margin-bottom:12px;
 }
-.preview-card h4{font-size:22px;color:#fff;margin-bottom:8px;}
-.preview-card .price{font-size:24px;color:var(--accent);font-weight:800;margin-bottom:10px;}
-.preview-card .spec{color:var(--text2);font-size:14px;}
+.preview-card h4{font-size:20px;color:var(--text);margin-bottom:6px;font-weight:800;}
+.preview-card .price{font-size:22px;color:var(--samsung-cyan);font-weight:800;margin-bottom:8px;}
+.preview-card .spec{color:var(--text-secondary);font-size:13px;}
 .preview-colors{
-  display:flex;gap:8px;justify-content:center;margin-top:15px;flex-wrap:wrap;
+  display:flex;gap:6px;justify-content:center;margin-top:14px;flex-wrap:wrap;
 }
 .preview-color{
-  display:flex;align-items:center;gap:6px;background:#111;border:1px solid #333;
-  border-radius:8px;padding:6px 12px;font-size:12px;
+  display:flex;align-items:center;gap:5px;background:var(--card);
+  border:1px solid var(--border);border-radius:8px;padding:5px 10px;font-size:12px;
 }
-.preview-color-dot{width:16px;height:16px;border-radius:50%;}
+.preview-color-dot{width:14px;height:14px;border-radius:50%;}
 
-/* Drag Handle */
+/* ===== DRAG & DROP ===== */
 .drag-handle{
-  color:var(--text3);cursor:grab;padding:8px;font-size:18px;
+  color:var(--text-tertiary);cursor:grab;padding:6px;font-size:16px;
 }
 .drag-handle:active{cursor:grabbing;}
-.product-item.dragging{opacity:0.5;border-color:var(--accent);}
+.product-item.dragging{opacity:0.4;border-color:var(--samsung-blue);}
 
-/* Sort Badge */
 .sort-badge{
-  background:var(--accent);color:#000;font-size:11px;font-weight:700;
-  padding:2px 8px;border-radius:6px;margin-right:8px;
+  background:var(--samsung-blue);color:#fff;font-size:10px;font-weight:800;
+  padding:2px 8px;border-radius:6px;margin-left:8px;
 }
 
+hr{border:none;border-top:1px solid var(--border);margin:22px 0;}
+
 @media(max-width:768px){
+  body{padding:14px;}
+  .card{padding:18px;}
+  h1{font-size:20px;}
+  h1 i{width:36px;height:36px;font-size:18px;}
+  .color-swatches{gap:8px;}
+  .swatch-circle{width:32px;height:32px;}
   .color-row{flex-direction:column;}
-  .color-row input{width:100%;}
+  .color-row > div:first-child{width:100%;}
   .color-row .upload-area{width:100%;}
-  .product-item{flex-direction:column;text-align:center;}
+  .product-item{flex-direction:column;text-align:center;padding:18px;}
   .product-actions{width:100%;justify-content:center;}
   .order-controls{flex-direction:column;align-items:stretch;}
   .order-controls select{width:100%;}
-  .color-picker-row{flex-direction:column;align-items:stretch;}
-  .color-picker-row input[type="color"]{width:100%;height:50px;}
+  .tabs{gap:4px;}
+  .tab{padding:8px 14px;font-size:13px;}
 }
 </style>
 </head>
@@ -250,7 +492,7 @@ label{display:block;color:var(--text2);font-size:13px;margin:12px 0 4px;font-wei
       <input type="hidden" id="imageUrl" value="">
       <div class="upload-area" id="mainUploadArea" onclick="document.getElementById('mainImageFile').click()">
         <input type="file" id="mainImageFile" accept="image/*" onchange="handleMainImageUpload(this)">
-        <button class="remove-img-btn" id="mainRemoveBtn" onclick="removeMainImage(event)"><i class="fas fa-trash"></i> إزالة الصورة</button>
+        <button class="remove-img-btn" id="mainRemoveBtn" onclick="removeMainImage(event)"><i class="fas fa-trash"></i> إزالة</button>
         <i class="fas fa-cloud-upload-alt"></i>
         <p>اضغط هنا أو اسحب صورة للرفع</p>
         <p class="file-name" id="mainFileName"></p>
@@ -260,18 +502,21 @@ label{display:block;color:var(--text2);font-size:13px;margin:12px 0 4px;font-wei
       </div>
       <p class="hint">الصورة هترفع على Cloudinary تلقائياً</p>
       
-      <!-- Main Product Color -->
-      <label>لون المنتج الأساسي</label>
-      <div class="color-picker-row">
-        <input type="color" id="mainColorPicker" value="#00b7ff" onchange="updateMainColorHex(this.value)">
-        <input type="text" id="mainColorHex" placeholder="كود اللون (#hex)" value="#00b7ff" onchange="updateMainColorPicker(this.value)">
-        <div class="color-preview-dot" id="mainColorPreview" style="background:#00b7ff"></div>
+      <!-- Samsung Color Swatches - Main -->
+      <label>لون المنتج الأساسي <span style="color:var(--text-tertiary);font-weight:400;">— اختر من ألوان سامسونج</span></label>
+      <div class="color-swatches" id="mainColorSwatches"></div>
+      <input type="hidden" id="mainColorHex" value="#4A4A4A">
+      <input type="hidden" id="mainColorName" value="Titanium Gray">
+      <div class="selected-color-info" id="mainSelectedColorInfo">
+        <div class="selected-color-dot" id="mainColorPreview" style="background:#4A4A4A"></div>
+        <span class="selected-color-name" id="mainColorNameDisplay">Titanium Gray</span>
+        <span class="selected-color-hex" id="mainColorHexDisplay">#4A4A4A</span>
       </div>
       
       <label>المواصفات الأساسية</label>
       <textarea id="spec" placeholder="256GB / 12GB RAM • Dual SIM • Box + Cable"></textarea>
       
-      <hr style="border-color:#222;margin:25px 0;">
+      <hr>
       
       <h2><i class="fas fa-palette"></i> الألوان (اختياري)</h2>
       <p class="hint">لو المنتج له أكتر من لون وسعر مختلف، ضيفهم هنا. كل لون ممكن يرفع صورته.</p>
@@ -279,9 +524,9 @@ label{display:block;color:var(--text2);font-size:13px;margin:12px 0 4px;font-wei
       <div id="colorsContainer"></div>
       <button class="btn btn-secondary" onclick="addColorRow()"><i class="fas fa-plus"></i> إضافة لون</button>
       
-      <hr style="border-color:#222;margin:25px 0;">
+      <hr>
       
-      <div style="display:flex;gap:10px;flex-wrap:wrap;">
+      <div style="display:flex;gap:8px;flex-wrap:wrap;">
         <button class="btn btn-primary" onclick="saveProduct()"><i class="fas fa-save"></i> <span id="saveBtnText">حفظ المنتج</span></button>
         <button class="btn btn-secondary" onclick="previewProduct()"><i class="fas fa-eye"></i> معاينة</button>
         <button class="btn btn-danger" onclick="resetForm()" id="cancelBtn" style="display:none;"><i class="fas fa-times"></i> إلغاء</button>
@@ -294,14 +539,12 @@ label{display:block;color:var(--text2);font-size:13px;margin:12px 0 4px;font-wei
     <div class="card">
       <h2><i class="fas fa-boxes"></i> المنتجات المضافة</h2>
       
-      <!-- Search -->
       <div class="search-box">
-        <input type="text" id="searchInput" placeholder="🔍 ابحث باسم المنتج أو السعر..." oninput="filterProducts()">
+        <input type="text" id="searchInput" placeholder="ابحث باسم المنتج أو السعر..." oninput="filterProducts()">
       </div>
       
-      <!-- Order Controls -->
       <div class="order-controls">
-        <label style="margin:0;">الترتيب:</label>
+        <label style="margin:0;color:var(--text-secondary);">الترتيب:</label>
         <select id="sortOrder" onchange="changeSortOrder()">
           <option value="newest">الأحدث أولاً</option>
           <option value="oldest">الأقدم أولاً</option>
@@ -334,12 +577,11 @@ label{display:block;color:var(--text2);font-size:13px;margin:12px 0 4px;font-wei
   </div>
 </div>
 
-<!-- ===== FIREBASE COMPAT MODE ===== -->
+<!-- FIREBASE -->
 <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore-compat.js"></script>
 
 <script>
-// ✅ Firebase Config (Firestore بس)
 const firebaseConfig = {
   apiKey: "AIzaSyC6BeFZCFK6gYsxG0zO4UJzPeZZbhAllU",
   authDomain: "hossam-72f79.firebaseapp.com",
@@ -353,17 +595,98 @@ const firebaseConfig = {
 firebase.initializeApp(firebaseConfig);
 const db = firebase.firestore();
 
-// ===== CLOUDINARY CONFIG =====
 const CLOUDINARY_CLOUD_NAME = 'dekslgvmk';
 const CLOUDINARY_UPLOAD_PRESET = 'samsung_products';
 
-// ===== STATE =====
 let allProducts = [];
 let currentSort = 'newest';
 let isEditing = false;
 let draggedItem = null;
 
-// ===== TABS =====
+// ===== SAMSUNG OFFICIAL COLORS =====
+const SAMSUNG_COLORS = [
+  {name:'Titanium Gray', hex:'#4A4A4A'},
+  {name:'Titanium Black', hex:'#1A1A1A'},
+  {name:'Titanium Violet', hex:'#7B6EA8'},
+  {name:'Titanium Yellow', hex:'#F4D03F'},
+  {name:'Titanium Blue', hex:'#2E5C8A'},
+  {name:'Phantom Black', hex:'#000000'},
+  {name:'Phantom Silver', hex:'#C0C0C0'},
+  {name:'Phantom White', hex:'#F5F5F5'},
+  {name:'Phantom Green', hex:'#3A5F40'},
+  {name:'Phantom Pink', hex:'#E6B8B8'},
+  {name:'Cream', hex:'#F5F5DC'},
+  {name:'Green', hex:'#2E5C3E'},
+  {name:'Lavender', hex:'#C8B8DB'},
+  {name:'Graphite', hex:'#4A4A4A'},
+  {name:'Sky Blue', hex:'#87CEEB'},
+  {name:'Burgundy', hex:'#800020'},
+  {name:'Navy', hex:'#1B3A5C'},
+  {name:'Coral', hex:'#FF7F50'},
+  {name:'Mint', hex:'#98FF98'},
+  {name:'Orange', hex:'#FF8C00'},
+  {name:'Red', hex:'#DC143C'},
+  {name:'Gold', hex:'#D4AF37'},
+  {name:'Rose Gold', hex:'#B76E79'},
+  {name:'Aura Glow', hex:'#E0E0E0'},
+  {name:'Cloud Blue', hex:'#A8C8EC'},
+  {name:'Cloud Lavender', hex:'#D4C4D9'},
+  {name:'Cloud Mint', hex:'#B8E0D2'},
+  {name:'Cloud Navy', hex:'#4A5568'},
+  {name:'Cloud Red', hex:'#C53030'},
+  {name:'Cloud White', hex:'#F7FAFC'},
+];
+
+// ===== RENDER COLOR SWATCHES =====
+function renderColorSwatches(containerId, selectedHex, onSelect, groupName){
+  const container = document.getElementById(containerId);
+  if(!container) return;
+  container.innerHTML = '';
+  
+  SAMSUNG_COLORS.forEach((color, index) => {
+    const isChecked = color.hex.toLowerCase() === (selectedHex || '#4A4A4A').toLowerCase();
+    const swatch = document.createElement('label');
+    swatch.className = 'color-swatch';
+    swatch.title = color.name;
+    swatch.innerHTML = `
+      <input type="radio" name="${groupName}" value="${color.hex}" ${isChecked ? 'checked' : ''} 
+        onchange="selectSamsungColor('${containerId}', '${color.hex}', '${color.name}')">
+      <div class="swatch-circle" style="background:${color.hex};"></div>
+      <div class="swatch-label">${color.name}</div>
+    `;
+    container.appendChild(swatch);
+  });
+}
+
+function selectSamsungColor(containerId, hex, name){
+  // Find parent container to update related fields
+  const container = document.getElementById(containerId);
+  const parent = container.closest('.card, .color-row');
+  
+  if(parent.classList.contains('color-row')){
+    // It's a color row
+    const rowId = parent.id.replace('color-', '');
+    document.getElementById('color-hex-'+rowId).value = hex;
+    document.getElementById('color-preview-dot-'+rowId).style.background = hex;
+    const infoDiv = parent.querySelector('.selected-color-info');
+    if(infoDiv){
+      infoDiv.querySelector('.selected-color-dot').style.background = hex;
+      infoDiv.querySelector('.selected-color-name').textContent = name;
+      infoDiv.querySelector('.selected-color-hex').textContent = hex;
+    }
+  } else {
+    // Main color
+    document.getElementById('mainColorHex').value = hex;
+    document.getElementById('mainColorName').value = name;
+    document.getElementById('mainColorPreview').style.background = hex;
+    document.getElementById('mainColorNameDisplay').textContent = name;
+    document.getElementById('mainColorHexDisplay').textContent = hex;
+  }
+}
+
+// Initialize main color swatches
+renderColorSwatches('mainColorSwatches', '#4A4A4A', null, 'mainColor');
+
 function switchTab(tab, el){
   document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
   document.querySelectorAll('.tab-content').forEach(t => t.classList.remove('active'));
@@ -371,7 +694,6 @@ function switchTab(tab, el){
   document.getElementById('tab-'+tab).classList.add('active');
 }
 
-// ===== ALERT =====
 function showAlert(msg, type){
   const box = document.getElementById('alertBox');
   const icons = {success:'check-circle', error:'exclamation-circle', info:'info-circle'};
@@ -381,23 +703,9 @@ function showAlert(msg, type){
   setTimeout(()=>{box.style.display='none';},4000);
 }
 
-// ===== MAIN COLOR PICKER =====
-function updateMainColorHex(color){
-  document.getElementById('mainColorHex').value = color;
-  document.getElementById('mainColorPreview').style.background = color;
-}
-
-function updateMainColorPicker(hex){
-  if(hex.match(/^#[0-9A-Fa-f]{6}$/)){
-    document.getElementById('mainColorPicker').value = hex;
-    document.getElementById('mainColorPreview').style.background = hex;
-  }
-}
-
 // ===== REMOVE MAIN IMAGE =====
 function removeMainImage(e){
-  e.stopPropagation(); // Prevent triggering file upload
-  
+  e.stopPropagation();
   document.getElementById('imageUrl').value = '';
   document.getElementById('mainImgPreview').src = '';
   document.getElementById('mainImgPreview').classList.remove('show');
@@ -405,67 +713,45 @@ function removeMainImage(e){
   document.getElementById('mainFileName').textContent = '';
   document.getElementById('mainRemoveBtn').classList.remove('show');
   document.getElementById('mainProgressFill').style.width = '0%';
-  
   showAlert('تم إزالة الصورة', 'info');
 }
 
-// ===== UPLOAD TO CLOUDINARY =====
+// ===== CLOUDINARY UPLOAD =====
 function uploadToCloudinary(file, onProgress, onComplete, onError){
   if(!file) return;
-  
   const url = `https://api.cloudinary.com/v1_1/${CLOUDINARY_CLOUD_NAME}/image/upload`;
   const formData = new FormData();
   formData.append('file', file);
   formData.append('upload_preset', CLOUDINARY_UPLOAD_PRESET);
   
   const xhr = new XMLHttpRequest();
-  
   xhr.upload.addEventListener('progress', (e) => {
     if(e.lengthComputable){
-      const progress = (e.loaded / e.total) * 100;
-      onProgress(progress);
+      onProgress((e.loaded / e.total) * 100);
     }
   });
-  
   xhr.addEventListener('load', () => {
     if(xhr.status === 200){
       try {
         const response = JSON.parse(xhr.responseText);
-        if(response.secure_url){
-          onComplete(response.secure_url);
-        } else {
-          onError(new Error('No secure_url in response'));
-        }
-      } catch(e) {
-        onError(new Error('Invalid JSON response'));
-      }
+        if(response.secure_url){onComplete(response.secure_url);}
+        else {onError(new Error('No secure_url'));}
+      } catch(e){onError(new Error('Invalid response'));}
     } else {
-      try {
-        const error = JSON.parse(xhr.responseText);
-        onError(new Error(error.error?.message || 'Upload failed: ' + xhr.status));
-      } catch(e) {
-        onError(new Error('Upload failed: ' + xhr.status + ' ' + xhr.statusText));
-      }
+      try {const err=JSON.parse(xhr.responseText);onError(new Error(err.error?.message||'Upload failed'));}
+      catch(e){onError(new Error('Upload failed'));}
     }
   });
-  
-  xhr.addEventListener('error', () => {
-    onError(new Error('Network error - Check CORS or internet connection'));
-  });
-  
+  xhr.addEventListener('error', () => onError(new Error('Network error')));
   xhr.open('POST', url);
   xhr.send(formData);
 }
 
-// ===== MAIN IMAGE UPLOAD =====
+// ===== MAIN IMAGE =====
 function handleMainImageUpload(input){
   const file = input.files[0];
   if(!file) return;
-  
-  if(!file.type.startsWith('image/')){
-    showAlert('الملف لازم يكون صورة', 'error');
-    return;
-  }
+  if(!file.type.startsWith('image/')){showAlert('الملف لازم يكون صورة', 'error');return;}
   
   const area = document.getElementById('mainUploadArea');
   const preview = document.getElementById('mainImgPreview');
@@ -481,42 +767,32 @@ function handleMainImageUpload(input){
   preview.classList.add('show');
   progressBar.classList.add('show');
   progressText.classList.add('show');
-  removeBtn.classList.add('show'); // Show remove button
+  removeBtn.classList.add('show');
   
   uploadToCloudinary(file,
-    (progress) => {
-      progressFill.style.width = progress + '%';
-      progressText.textContent = Math.round(progress) + '%';
-    },
+    (p) => {progressFill.style.width=p+'%';progressText.textContent=Math.round(p)+'%';},
     (url) => {
       document.getElementById('imageUrl').value = url;
-      progressFill.style.width = '100%';
-      progressText.textContent = '✅ تم الرفع!';
-      progressText.style.color = '#25d366';
+      progressFill.style.width='100%';
+      progressText.textContent='تم الرفع ✓';
+      progressText.style.color='var(--success)';
       showAlert('تم رفع الصورة بنجاح!', 'success');
-      setTimeout(() => {
-        progressBar.classList.remove('show');
-        progressText.classList.remove('show');
-      }, 2000);
+      setTimeout(()=>{progressBar.classList.remove('show');progressText.classList.remove('show');},2000);
     },
-    (error) => {
-      progressText.textContent = '❌ فشل الرفع';
-      progressText.style.color = '#ff6b81';
-      removeBtn.classList.remove('show'); // Hide remove button on error
-      showAlert('فشل رفع الصورة: ' + error.message, 'error');
+    (err) => {
+      progressText.textContent='فشل الرفع';
+      progressText.style.color='var(--danger)';
+      removeBtn.classList.remove('show');
+      showAlert('فشل رفع الصورة: '+err.message, 'error');
     }
   );
 }
 
-// ===== COLOR IMAGE UPLOAD =====
+// ===== COLOR IMAGE =====
 function handleColorImageUpload(input, colorId){
   const file = input.files[0];
   if(!file) return;
-  
-  if(!file.type.startsWith('image/')){
-    showAlert('الملف لازم يكون صورة', 'error');
-    return;
-  }
+  if(!file.type.startsWith('image/')){showAlert('الملف لازم يكون صورة', 'error');return;}
   
   const area = document.getElementById('color-upload-'+colorId);
   const preview = document.getElementById('color-preview-'+colorId);
@@ -536,33 +812,25 @@ function handleColorImageUpload(input, colorId){
   if(removeBtn) removeBtn.classList.add('show');
   
   uploadToCloudinary(file,
-    (progress) => {
-      progressFill.style.width = progress + '%';
-      progressText.textContent = Math.round(progress) + '%';
-    },
+    (p) => {progressFill.style.width=p+'%';progressText.textContent=Math.round(p)+'%';},
     (url) => {
       urlInput.value = url;
-      progressFill.style.width = '100%';
-      progressText.textContent = '✅ تم الرفع!';
-      progressText.style.color = '#25d366';
-      setTimeout(() => {
-        progressBar.classList.remove('show');
-        progressText.classList.remove('show');
-      }, 2000);
+      progressFill.style.width='100%';
+      progressText.textContent='تم ✓';
+      progressText.style.color='var(--success)';
+      setTimeout(()=>{progressBar.classList.remove('show');progressText.classList.remove('show');},2000);
     },
-    (error) => {
-      progressText.textContent = '❌ فشل';
-      progressText.style.color = '#ff6b81';
+    (err) => {
+      progressText.textContent='فشل';
+      progressText.style.color='var(--danger)';
       if(removeBtn) removeBtn.classList.remove('show');
-      showAlert('فشل رفع صورة اللون: ' + error.message, 'error');
+      showAlert('فشل رفع صورة اللون: '+err.message, 'error');
     }
   );
 }
 
-// ===== REMOVE COLOR IMAGE =====
 function removeColorImage(e, colorId){
   e.stopPropagation();
-  
   document.getElementById('color-url-'+colorId).value = '';
   document.getElementById('color-preview-'+colorId).src = '';
   document.getElementById('color-preview-'+colorId).classList.remove('show');
@@ -570,7 +838,6 @@ function removeColorImage(e, colorId){
   document.getElementById('color-filename-'+colorId).textContent = '';
   document.getElementById('color-remove-'+colorId).classList.remove('show');
   document.getElementById('color-progressfill-'+colorId).style.width = '0%';
-  
   showAlert('تم إزالة صورة اللون', 'info');
 }
 
@@ -578,19 +845,25 @@ function removeColorImage(e, colorId){
 function addColorRow(data = null){
   const container = document.getElementById('colorsContainer');
   const id = Date.now() + Math.random().toString(36).substr(2, 9);
+  const defaultHex = data ? (data.colorHex || '#4A4A4A') : '#4A4A4A';
+  const defaultName = data ? (data.colorName || 'Titanium Gray') : 'Titanium Gray';
+  
   const div = document.createElement('div');
   div.className = 'color-row';
   div.id = 'color-'+id;
   div.innerHTML = `
-    <div style="flex:1;display:flex;flex-direction:column;gap:8px;">
+    <div>
       <input placeholder="اسم اللون" class="c-name" value="${data ? data.colorName : ''}">
       <input placeholder="السعر" class="c-price" value="${data ? data.price : ''}">
       
-      <!-- Color Picker for this color -->
-      <div class="color-picker-row">
-        <input type="color" id="color-picker-${id}" value="${data ? (data.colorHex || '#666') : '#666'}" onchange="updateColorHex('${id}', this.value)">
-        <input type="text" id="color-hex-${id}" class="c-hex" placeholder="كود اللون (#hex)" value="${data ? (data.colorHex || '#666') : '#666'}" onchange="updateColorPicker('${id}', this.value)">
-        <div class="color-preview-dot" id="color-preview-dot-${id}" style="background:${data ? (data.colorHex || '#666') : '#666'}"></div>
+      <label style="margin-top:8px;">اختر لون سامسونج</label>
+      <div class="color-swatches" id="swatches-${id}"></div>
+      <input type="hidden" id="color-hex-${id}" class="c-hex" value="${defaultHex}">
+      
+      <div class="selected-color-info">
+        <div class="selected-color-dot" id="color-preview-dot-${id}" style="background:${defaultHex}"></div>
+        <span class="selected-color-name" id="color-name-display-${id}">${defaultName}</span>
+        <span class="selected-color-hex" id="color-hex-display-${id}">${defaultHex}</span>
       </div>
       
       <input type="hidden" id="color-url-${id}" class="c-image-hidden" value="${data ? data.image : ''}">
@@ -611,8 +884,10 @@ function addColorRow(data = null){
   `;
   container.appendChild(div);
   
-  if(data && data.image){
-    setTimeout(() => {
+  // Render swatches for this row
+  setTimeout(() => {
+    renderColorSwatches('swatches-'+id, defaultHex, null, 'color-'+id);
+    if(data && data.image){
       const preview = document.getElementById('color-preview-'+id);
       const area = document.getElementById('color-upload-'+id);
       const removeBtn = document.getElementById('color-remove-'+id);
@@ -623,22 +898,32 @@ function addColorRow(data = null){
         document.getElementById('color-filename-'+id).textContent = 'صورة محفوظة';
         if(removeBtn) removeBtn.classList.add('show');
       }
-    }, 100);
-  }
+    }
+  }, 10);
 }
 
-// ===== UPDATE COLOR PICKER =====
-function updateColorHex(id, color){
-  document.getElementById('color-hex-'+id).value = color;
-  document.getElementById('color-preview-dot-'+id).style.background = color;
-}
-
-function updateColorPicker(id, hex){
-  if(hex.match(/^#[0-9A-Fa-f]{6}$/)){
-    document.getElementById('color-picker-'+id).value = hex;
-    document.getElementById('color-preview-dot-'+id).style.background = hex;
+// Override selectSamsungColor for dynamic rows
+const originalSelectSamsungColor = window.selectSamsungColor;
+window.selectSamsungColor = function(containerId, hex, name){
+  const container = document.getElementById(containerId);
+  const parent = container.closest('.card, .color-row');
+  
+  if(parent.classList.contains('color-row')){
+    const rowId = parent.id.replace('color-', '');
+    document.getElementById('color-hex-'+rowId).value = hex;
+    document.getElementById('color-preview-dot-'+rowId).style.background = hex;
+    const nameEl = document.getElementById('color-name-display-'+rowId);
+    const hexEl = document.getElementById('color-hex-display-'+rowId);
+    if(nameEl) nameEl.textContent = name;
+    if(hexEl) hexEl.textContent = hex;
+  } else {
+    document.getElementById('mainColorHex').value = hex;
+    document.getElementById('mainColorName').value = name;
+    document.getElementById('mainColorPreview').style.background = hex;
+    document.getElementById('mainColorNameDisplay').textContent = name;
+    document.getElementById('mainColorHexDisplay').textContent = hex;
   }
-}
+};
 
 // ===== RESET FORM =====
 function resetForm(){
@@ -649,12 +934,14 @@ function resetForm(){
   document.getElementById('spec').value = '';
   document.getElementById('colorsContainer').innerHTML = '';
   
-  // Reset main color
-  document.getElementById('mainColorPicker').value = '#00b7ff';
-  document.getElementById('mainColorHex').value = '#00b7ff';
-  document.getElementById('mainColorPreview').style.background = '#00b7ff';
+  // Reset main color to Titanium Gray
+  document.getElementById('mainColorHex').value = '#4A4A4A';
+  document.getElementById('mainColorName').value = 'Titanium Gray';
+  document.getElementById('mainColorPreview').style.background = '#4A4A4A';
+  document.getElementById('mainColorNameDisplay').textContent = 'Titanium Gray';
+  document.getElementById('mainColorHexDisplay').textContent = '#4A4A4A';
+  renderColorSwatches('mainColorSwatches', '#4A4A4A', null, 'mainColor');
   
-  // Reset main image
   const mainArea = document.getElementById('mainUploadArea');
   const mainPreview = document.getElementById('mainImgPreview');
   const mainRemoveBtn = document.getElementById('mainRemoveBtn');
@@ -679,6 +966,7 @@ function saveProduct(){
   const image = document.getElementById('imageUrl').value.trim();
   const spec = document.getElementById('spec').value.trim();
   const mainColorHex = document.getElementById('mainColorHex').value.trim();
+  const mainColorName = document.getElementById('mainColorName').value.trim();
   
   if(!name){showAlert('اكتب اسم المنتج', 'error'); return;}
   
@@ -697,7 +985,7 @@ function saveProduct(){
         price: priceInput ? priceInput.value.trim() : '',
         image: urlInput ? urlInput.value.trim() : '',
         spec: specInput ? specInput.value.trim() : '',
-        colorHex: hexInput ? (hexInput.value.trim() || '#666') : '#666'
+        colorHex: hexInput ? (hexInput.value.trim() || '#4A4A4A') : '#4A4A4A'
       });
     }
   });
@@ -707,7 +995,8 @@ function saveProduct(){
     price: price,
     image: image,
     spec: spec,
-    mainColorHex: mainColorHex || '#00b7ff',
+    mainColorHex: mainColorHex || '#4A4A4A',
+    mainColorName: mainColorName || 'Titanium Gray',
     colors: colors.length > 0 ? colors : null,
     updatedAt: firebase.firestore.FieldValue.serverTimestamp()
   };
@@ -724,10 +1013,7 @@ function saveProduct(){
         resetForm();
         switchTab('list', document.querySelectorAll('.tab')[1]);
       })
-      .catch(err => {
-        console.error("Update Error:", err);
-        showAlert('خطأ: '+err.message, 'error');
-      });
+      .catch(err => {console.error(err);showAlert('خطأ: '+err.message, 'error');});
   } else {
     data.createdAt = firebase.firestore.FieldValue.serverTimestamp();
     data.sortOrder = Date.now();
@@ -736,30 +1022,30 @@ function saveProduct(){
         showAlert('تمت إضافة المنتج بنجاح!', 'success');
         resetForm();
       })
-      .catch(err => {
-        console.error("Add Error:", err);
-        showAlert('خطأ: '+err.message, 'error');
-      });
+      .catch(err => {console.error(err);showAlert('خطأ: '+err.message, 'error');});
   }
 }
 
-// ===== EDIT PRODUCT =====
+// ===== EDIT =====
 function editProduct(id){
   const product = allProducts.find(p => p.id === id);
   if(!product) return;
-  
   const p = product.data;
+  
   document.getElementById('editId').value = id;
   document.getElementById('name').value = p.name || '';
   document.getElementById('price').value = p.price || '';
   document.getElementById('imageUrl').value = p.image || '';
   document.getElementById('spec').value = p.spec || '';
   
-  // Set main color
-  const mainColor = p.mainColorHex || '#00b7ff';
-  document.getElementById('mainColorPicker').value = mainColor;
+  const mainColor = p.mainColorHex || '#4A4A4A';
+  const mainName = p.mainColorName || 'Titanium Gray';
   document.getElementById('mainColorHex').value = mainColor;
+  document.getElementById('mainColorName').value = mainName;
   document.getElementById('mainColorPreview').style.background = mainColor;
+  document.getElementById('mainColorNameDisplay').textContent = mainName;
+  document.getElementById('mainColorHexDisplay').textContent = mainColor;
+  renderColorSwatches('mainColorSwatches', mainColor, null, 'mainColor');
   
   if(p.image){
     const mainArea = document.getElementById('mainUploadArea');
@@ -786,23 +1072,22 @@ function editProduct(id){
   showAlert('جاري تعديل: ' + p.name, 'info');
 }
 
-// ===== DUPLICATE PRODUCT =====
+// ===== DUPLICATE =====
 function duplicateProduct(id){
   const product = allProducts.find(p => p.id === id);
   if(!product) return;
-  
   const p = product.data;
   const data = {
     name: p.name + ' (نسخة)',
     price: p.price || '',
     image: p.image || '',
     spec: p.spec || '',
-    mainColorHex: p.mainColorHex || '#00b7ff',
+    mainColorHex: p.mainColorHex || '#4A4A4A',
+    mainColorName: p.mainColorName || 'Titanium Gray',
     colors: p.colors || null,
     createdAt: firebase.firestore.FieldValue.serverTimestamp(),
     sortOrder: Date.now()
   };
-  
   if(!data.price) delete data.price;
   if(!data.image) delete data.image;
   if(!data.spec) delete data.spec;
@@ -810,19 +1095,17 @@ function duplicateProduct(id){
   
   db.collection("products").add(data)
     .then(() => showAlert('تم نسخ المنتج بنجاح!', 'success'))
-    .catch(err => {
-      console.error("Duplicate Error:", err);
-      showAlert('خطأ: '+err.message, 'error');
-    });
+    .catch(err => {console.error(err);showAlert('خطأ: '+err.message, 'error');});
 }
 
-// ===== PREVIEW PRODUCT =====
+// ===== PREVIEW =====
 function previewProduct(){
   const name = document.getElementById('name').value.trim();
   const price = document.getElementById('price').value.trim();
   const image = document.getElementById('imageUrl').value.trim();
   const spec = document.getElementById('spec').value.trim();
-  const mainColorHex = document.getElementById('mainColorHex').value.trim() || '#00b7ff';
+  const mainColorHex = document.getElementById('mainColorHex').value.trim() || '#4A4A4A';
+  const mainColorName = document.getElementById('mainColorName').value.trim() || 'Titanium Gray';
   
   const colorRows = document.querySelectorAll('.color-row');
   const colors = [];
@@ -839,7 +1122,7 @@ function previewProduct(){
         price: priceInput ? priceInput.value.trim() : '',
         image: urlInput ? urlInput.value.trim() : '',
         spec: specInput ? specInput.value.trim() : '',
-        colorHex: hexInput ? (hexInput.value.trim() || '#666') : '#666'
+        colorHex: hexInput ? (hexInput.value.trim() || '#4A4A4A') : '#4A4A4A'
       });
     }
   });
@@ -854,60 +1137,40 @@ function previewProduct(){
   html += `<div class="price">${displayPrice} جنيه</div>`;
   if(displaySpec) html += `<div class="spec">${displaySpec}</div>`;
   
-  // Show main color
   html += `<div class="preview-colors">`;
-  html += `<div class="preview-color">
-    <div class="preview-color-dot" style="background:${mainColorHex}"></div>
-    <span>اللون الأساسي</span>
-  </div>`;
-  
+  html += `<div class="preview-color"><div class="preview-color-dot" style="background:${mainColorHex}"></div><span>${mainColorName}</span></div>`;
   if(colors.length > 0){
     colors.forEach(c => {
-      html += `<div class="preview-color">
-        <div class="preview-color-dot" style="background:${c.colorHex}"></div>
-        <span>${c.colorName}</span>
-        <span style="color:var(--accent)">${c.price} ج</span>
-      </div>`;
+      html += `<div class="preview-color"><div class="preview-color-dot" style="background:${c.colorHex}"></div><span>${c.colorName}</span><span style="color:var(--samsung-cyan)">${c.price} ج</span></div>`;
     });
   }
-  html += '</div>';
-  html += '</div>';
+  html += '</div></div>';
   
   document.getElementById('previewBody').innerHTML = html;
   document.getElementById('previewModal').classList.add('active');
 }
 
-function closePreview(){
-  document.getElementById('previewModal').classList.remove('active');
-}
-function closeModal(e){
-  if(e.target === document.getElementById('previewModal')){
-    closePreview();
-  }
-}
+function closePreview(){document.getElementById('previewModal').classList.remove('active');}
+function closeModal(e){if(e.target === document.getElementById('previewModal')) closePreview();}
 
-// ===== FILTER PRODUCTS =====
+// ===== FILTER & SORT =====
 function filterProducts(){
   const query = document.getElementById('searchInput').value.toLowerCase().trim();
   renderProducts(allProducts, query);
 }
 
-// ===== CHANGE SORT ORDER =====
 function changeSortOrder(){
   currentSort = document.getElementById('sortOrder').value;
   const saveBtn = document.getElementById('saveOrderBtn');
-  
   if(currentSort === 'custom'){
     saveBtn.style.display = 'inline-flex';
     showAlert('اسحب المنتجات لإعادة ترتيبها، ثم اضغط حفظ الترتيب', 'info');
   } else {
     saveBtn.style.display = 'none';
   }
-  
   loadProducts();
 }
 
-// ===== SORT PRODUCTS =====
 function sortProducts(products, sortType){
   const sorted = [...products];
   switch(sortType){
@@ -957,13 +1220,11 @@ function initDragAndDrop(){
     item.addEventListener('dragend', handleDragEnd);
   });
 }
-
 function handleDragStart(e){
   draggedItem = this;
   this.classList.add('dragging');
   e.dataTransfer.effectAllowed = 'move';
 }
-
 function handleDragOver(e){
   e.preventDefault();
   e.dataTransfer.dropEffect = 'move';
@@ -974,17 +1235,12 @@ function handleDragOver(e){
     document.getElementById('productsList').insertBefore(draggedItem, afterElement);
   }
 }
-
-function handleDrop(e){
-  e.preventDefault();
-}
-
+function handleDrop(e){e.preventDefault();}
 function handleDragEnd(){
   this.classList.remove('dragging');
   draggedItem = null;
   updateOrderNumbers();
 }
-
 function getDragAfterElement(container, y){
   const draggableElements = [...container.querySelectorAll('.product-item:not(.dragging)')];
   return draggableElements.reduce((closest, child) => {
@@ -997,7 +1253,6 @@ function getDragAfterElement(container, y){
     }
   }, {offset: Number.NEGATIVE_INFINITY}).element;
 }
-
 function updateOrderNumbers(){
   const items = document.querySelectorAll('.product-item');
   items.forEach((item, index) => {
@@ -1010,7 +1265,6 @@ function updateOrderNumbers(){
 function saveCustomOrder(){
   const items = document.querySelectorAll('.product-item');
   const batch = db.batch();
-  
   items.forEach((item, index) => {
     const id = item.dataset.id;
     if(id){
@@ -1018,22 +1272,14 @@ function saveCustomOrder(){
       batch.update(ref, {sortOrder: index + 1});
     }
   });
-  
   batch.commit()
-    .then(() => {
-      showAlert('تم حفظ الترتيب الجديد بنجاح!', 'success');
-      loadProducts();
-    })
-    .catch(err => {
-      console.error("Save Order Error:", err);
-      showAlert('خطأ في حفظ الترتيب: '+err.message, 'error');
-    });
+    .then(() => {showAlert('تم حفظ الترتيب الجديد بنجاح!', 'success');loadProducts();})
+    .catch(err => {console.error(err);showAlert('خطأ في حفظ الترتيب: '+err.message, 'error');});
 }
 
-// ===== RENDER PRODUCTS =====
+// ===== RENDER =====
 function renderProducts(products, searchQuery = ''){
   const list = document.getElementById('productsList');
-  
   let filtered = products;
   if(searchQuery){
     filtered = products.filter(p => {
@@ -1043,7 +1289,6 @@ function renderProducts(products, searchQuery = ''){
       return name.includes(searchQuery) || price.includes(searchQuery) || colors.includes(searchQuery);
     });
   }
-  
   filtered = sortProducts(filtered, currentSort);
   
   if(filtered.length === 0){
@@ -1057,13 +1302,14 @@ function renderProducts(products, searchQuery = ''){
     const isCustom = currentSort === 'custom';
     const orderBadge = isCustom ? `<span class="sort-badge">${index + 1}</span>` : '';
     const dragHandle = isCustom ? `<div class="drag-handle" title="اسحب لإعادة الترتيب"><i class="fas fa-grip-vertical"></i></div>` : '';
+    const mainColorDot = p.mainColorHex ? `<span style="display:inline-block;width:10px;height:10px;border-radius:50%;background:${p.mainColorHex};margin-left:6px;border:1px solid var(--border);"></span>` : '';
     
     list.innerHTML += `
       <div class="product-item" data-id="${product.id}" ${isCustom ? 'draggable="true"' : ''}>
         ${dragHandle}
         <img src="${p.image || p.colors?.[0]?.image || 'https://via.placeholder.com/70'}" alt="${p.name}" onerror="this.src='https://via.placeholder.com/70'">
         <div class="product-info">
-          <h4>${orderBadge}${p.name}</h4>
+          <h4>${orderBadge}${p.name}${mainColorDot}</h4>
           <p>${p.price || p.colors?.[0]?.price || '0'} جنيه • ${p.colors?.length || 0} ألوان • ${formatDate(p.createdAt)}</p>
         </div>
         <div class="product-actions">
@@ -1074,10 +1320,7 @@ function renderProducts(products, searchQuery = ''){
       </div>
     `;
   });
-  
-  if(currentSort === 'custom'){
-    initDragAndDrop();
-  }
+  if(currentSort === 'custom') initDragAndDrop();
 }
 
 function formatDate(timestamp){
@@ -1085,43 +1328,34 @@ function formatDate(timestamp){
   try{
     const date = timestamp.toDate ? timestamp.toDate() : new Date(timestamp);
     return date.toLocaleDateString('ar-EG');
-  } catch(e){
-    return '';
-  }
+  } catch(e){return '';}
 }
 
-// ===== DELETE PRODUCT =====
+// ===== DELETE =====
 function deleteProduct(id){
   if(confirm('هل تريد حذف هذا المنتج؟')){
     db.collection("products").doc(id).delete()
       .then(() => showAlert('تم الحذف بنجاح', 'success'))
-      .catch(err => {
-        console.error("Delete Error:", err);
-        showAlert('خطأ: '+err.message, 'error');
-      });
+      .catch(err => {console.error(err);showAlert('خطأ: '+err.message, 'error');});
   }
 }
 
-// ===== LOAD PRODUCTS =====
+// ===== LOAD =====
 function loadProducts(){
   const list = document.getElementById('productsList');
   list.innerHTML = '<div class="empty-state"><i class="fas fa-spinner fa-spin"></i><p>جاري التحميل...</p></div>';
   
   db.collection("products").onSnapshot(snap => {
     allProducts = [];
-    snap.forEach(doc => {
-      allProducts.push({id: doc.id, data: doc.data()});
-    });
-    
+    snap.forEach(doc => {allProducts.push({id: doc.id, data: doc.data()});});
     const searchQuery = document.getElementById('searchInput').value.toLowerCase().trim();
     renderProducts(allProducts, searchQuery);
   }, err => {
-    console.error("Load Error:", err);
-    list.innerHTML = `<div class="empty-state" style="color:#ff6b81;"><i class="fas fa-exclamation-triangle"></i><p>خطأ في الاتصال بـ Firebase</p></div>`;
+    console.error(err);
+    list.innerHTML = `<div class="empty-state" style="color:var(--danger);"><i class="fas fa-exclamation-triangle"></i><p>خطأ في الاتصال بـ Firebase</p></div>`;
   });
 }
 
-// ===== INIT =====
 loadProducts();
 </script>
 </body>
