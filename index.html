@@ -419,7 +419,6 @@ label{
   width:100%;max-width:220px;height:auto;border-radius:12px;margin-bottom:12px;
 }
 .preview-card h4{font-size:20px;color:var(--text);margin-bottom:6px;font-weight:800;}
-.preview-card .price{font-size:22px;color:var(--samsung-cyan);font-weight:800;margin-bottom:8px;}
 .preview-card .spec{color:var(--text-secondary);font-size:13px;}
 .preview-colors{
   display:flex;gap:6px;justify-content:center;margin-top:14px;flex-wrap:wrap;
@@ -484,9 +483,6 @@ hr{border:none;border-top:1px solid var(--border);margin:22px 0;}
       <label>اسم المنتج</label>
       <input id="name" placeholder="مثال: Galaxy S24 Ultra">
       
-      <label>السعر الأساسي (لو مفيش ألوان)</label>
-      <input id="price" placeholder="مثال: 48,500">
-      
       <!-- Main Image Upload -->
       <label>صورة المنتج الأساسية</label>
       <input type="hidden" id="imageUrl" value="">
@@ -519,7 +515,7 @@ hr{border:none;border-top:1px solid var(--border);margin:22px 0;}
       <hr>
       
       <h2><i class="fas fa-palette"></i> الألوان (اختياري)</h2>
-      <p class="hint">لو المنتج له أكتر من لون وسعر مختلف، ضيفهم هنا. كل لون ممكن يرفع صورته.</p>
+      <p class="hint">لو المنتج له أكتر من لون ومواصفات مختلفة، ضيفهم هنا. كل لون ممكن يرفع صورته.</p>
       
       <div id="colorsContainer"></div>
       <button class="btn btn-secondary" onclick="addColorRow()"><i class="fas fa-plus"></i> إضافة لون</button>
@@ -540,7 +536,7 @@ hr{border:none;border-top:1px solid var(--border);margin:22px 0;}
       <h2><i class="fas fa-boxes"></i> المنتجات المضافة</h2>
       
       <div class="search-box">
-        <input type="text" id="searchInput" placeholder="ابحث باسم المنتج أو السعر..." oninput="filterProducts()">
+        <input type="text" id="searchInput" placeholder="ابحث باسم المنتج..." oninput="filterProducts()">
       </div>
       
       <div class="order-controls">
@@ -548,8 +544,6 @@ hr{border:none;border-top:1px solid var(--border);margin:22px 0;}
         <select id="sortOrder" onchange="changeSortOrder()">
           <option value="newest">الأحدث أولاً</option>
           <option value="oldest">الأقدم أولاً</option>
-          <option value="priceHigh">الأعلى سعراً</option>
-          <option value="priceLow">الأقل سعراً</option>
           <option value="nameAZ">الاسم أ-ي</option>
           <option value="nameZA">الاسم ي-أ</option>
           <option value="custom">ترتيب يدوي (سحب وإفلات)</option>
@@ -659,12 +653,10 @@ function renderColorSwatches(containerId, selectedHex, onSelect, groupName){
 }
 
 function selectSamsungColor(containerId, hex, name){
-  // Find parent container to update related fields
   const container = document.getElementById(containerId);
   const parent = container.closest('.card, .color-row');
   
   if(parent.classList.contains('color-row')){
-    // It's a color row
     const rowId = parent.id.replace('color-', '');
     document.getElementById('color-hex-'+rowId).value = hex;
     document.getElementById('color-preview-dot-'+rowId).style.background = hex;
@@ -675,7 +667,6 @@ function selectSamsungColor(containerId, hex, name){
       infoDiv.querySelector('.selected-color-hex').textContent = hex;
     }
   } else {
-    // Main color
     document.getElementById('mainColorHex').value = hex;
     document.getElementById('mainColorName').value = name;
     document.getElementById('mainColorPreview').style.background = hex;
@@ -854,7 +845,6 @@ function addColorRow(data = null){
   div.innerHTML = `
     <div>
       <input placeholder="اسم اللون" class="c-name" value="${data ? data.colorName : ''}">
-      <input placeholder="السعر" class="c-price" value="${data ? data.price : ''}">
       
       <label style="margin-top:8px;">اختر لون سامسونج</label>
       <div class="color-swatches" id="swatches-${id}"></div>
@@ -884,7 +874,6 @@ function addColorRow(data = null){
   `;
   container.appendChild(div);
   
-  // Render swatches for this row
   setTimeout(() => {
     renderColorSwatches('swatches-'+id, defaultHex, null, 'color-'+id);
     if(data && data.image){
@@ -902,39 +891,14 @@ function addColorRow(data = null){
   }, 10);
 }
 
-// Override selectSamsungColor for dynamic rows
-const originalSelectSamsungColor = window.selectSamsungColor;
-window.selectSamsungColor = function(containerId, hex, name){
-  const container = document.getElementById(containerId);
-  const parent = container.closest('.card, .color-row');
-  
-  if(parent.classList.contains('color-row')){
-    const rowId = parent.id.replace('color-', '');
-    document.getElementById('color-hex-'+rowId).value = hex;
-    document.getElementById('color-preview-dot-'+rowId).style.background = hex;
-    const nameEl = document.getElementById('color-name-display-'+rowId);
-    const hexEl = document.getElementById('color-hex-display-'+rowId);
-    if(nameEl) nameEl.textContent = name;
-    if(hexEl) hexEl.textContent = hex;
-  } else {
-    document.getElementById('mainColorHex').value = hex;
-    document.getElementById('mainColorName').value = name;
-    document.getElementById('mainColorPreview').style.background = hex;
-    document.getElementById('mainColorNameDisplay').textContent = name;
-    document.getElementById('mainColorHexDisplay').textContent = hex;
-  }
-};
-
 // ===== RESET FORM =====
 function resetForm(){
   document.getElementById('editId').value = '';
   document.getElementById('name').value = '';
-  document.getElementById('price').value = '';
   document.getElementById('imageUrl').value = '';
   document.getElementById('spec').value = '';
   document.getElementById('colorsContainer').innerHTML = '';
   
-  // Reset main color to Titanium Gray
   document.getElementById('mainColorHex').value = '#4A4A4A';
   document.getElementById('mainColorName').value = 'Titanium Gray';
   document.getElementById('mainColorPreview').style.background = '#4A4A4A';
@@ -962,7 +926,6 @@ function resetForm(){
 function saveProduct(){
   const editId = document.getElementById('editId').value;
   const name = document.getElementById('name').value.trim();
-  const price = document.getElementById('price').value.trim();
   const image = document.getElementById('imageUrl').value.trim();
   const spec = document.getElementById('spec').value.trim();
   const mainColorHex = document.getElementById('mainColorHex').value.trim();
@@ -974,7 +937,6 @@ function saveProduct(){
   const colors = [];
   colorRows.forEach(row => {
     const nameInput = row.querySelector('.c-name');
-    const priceInput = row.querySelector('.c-price');
     const urlInput = row.querySelector('.c-image-hidden');
     const specInput = row.querySelector('.c-spec');
     const hexInput = row.querySelector('.c-hex');
@@ -982,7 +944,6 @@ function saveProduct(){
     if(nameInput && nameInput.value.trim()){
       colors.push({
         colorName: nameInput.value.trim(),
-        price: priceInput ? priceInput.value.trim() : '',
         image: urlInput ? urlInput.value.trim() : '',
         spec: specInput ? specInput.value.trim() : '',
         colorHex: hexInput ? (hexInput.value.trim() || '#4A4A4A') : '#4A4A4A'
@@ -992,7 +953,6 @@ function saveProduct(){
   
   const data = {
     name: name,
-    price: price,
     image: image,
     spec: spec,
     mainColorHex: mainColorHex || '#4A4A4A',
@@ -1001,7 +961,6 @@ function saveProduct(){
     updatedAt: firebase.firestore.FieldValue.serverTimestamp()
   };
   
-  if(!data.price) delete data.price;
   if(!data.image) delete data.image;
   if(!data.spec) delete data.spec;
   if(!data.colors) delete data.colors;
@@ -1034,7 +993,6 @@ function editProduct(id){
   
   document.getElementById('editId').value = id;
   document.getElementById('name').value = p.name || '';
-  document.getElementById('price').value = p.price || '';
   document.getElementById('imageUrl').value = p.image || '';
   document.getElementById('spec').value = p.spec || '';
   
@@ -1079,7 +1037,6 @@ function duplicateProduct(id){
   const p = product.data;
   const data = {
     name: p.name + ' (نسخة)',
-    price: p.price || '',
     image: p.image || '',
     spec: p.spec || '',
     mainColorHex: p.mainColorHex || '#4A4A4A',
@@ -1088,7 +1045,6 @@ function duplicateProduct(id){
     createdAt: firebase.firestore.FieldValue.serverTimestamp(),
     sortOrder: Date.now()
   };
-  if(!data.price) delete data.price;
   if(!data.image) delete data.image;
   if(!data.spec) delete data.spec;
   if(!data.colors) delete data.colors;
@@ -1101,7 +1057,6 @@ function duplicateProduct(id){
 // ===== PREVIEW =====
 function previewProduct(){
   const name = document.getElementById('name').value.trim();
-  const price = document.getElementById('price').value.trim();
   const image = document.getElementById('imageUrl').value.trim();
   const spec = document.getElementById('spec').value.trim();
   const mainColorHex = document.getElementById('mainColorHex').value.trim() || '#4A4A4A';
@@ -1111,7 +1066,6 @@ function previewProduct(){
   const colors = [];
   colorRows.forEach(row => {
     const nameInput = row.querySelector('.c-name');
-    const priceInput = row.querySelector('.c-price');
     const urlInput = row.querySelector('.c-image-hidden');
     const specInput = row.querySelector('.c-spec');
     const hexInput = row.querySelector('.c-hex');
@@ -1119,7 +1073,6 @@ function previewProduct(){
     if(nameInput && nameInput.value.trim()){
       colors.push({
         colorName: nameInput.value.trim(),
-        price: priceInput ? priceInput.value.trim() : '',
         image: urlInput ? urlInput.value.trim() : '',
         spec: specInput ? specInput.value.trim() : '',
         colorHex: hexInput ? (hexInput.value.trim() || '#4A4A4A') : '#4A4A4A'
@@ -1129,19 +1082,17 @@ function previewProduct(){
   
   let html = '<div class="preview-card">';
   const displayImage = image || (colors[0] && colors[0].image) || 'https://via.placeholder.com/250';
-  const displayPrice = price || (colors[0] && colors[0].price) || '0';
   const displaySpec = spec || (colors[0] && colors[0].spec) || '';
   
   html += `<img src="${displayImage}" alt="${name}" onerror="this.src='https://via.placeholder.com/250'">`;
   html += `<h4>${name || 'اسم المنتج'}</h4>`;
-  html += `<div class="price">${displayPrice} جنيه</div>`;
   if(displaySpec) html += `<div class="spec">${displaySpec}</div>`;
   
   html += `<div class="preview-colors">`;
   html += `<div class="preview-color"><div class="preview-color-dot" style="background:${mainColorHex}"></div><span>${mainColorName}</span></div>`;
   if(colors.length > 0){
     colors.forEach(c => {
-      html += `<div class="preview-color"><div class="preview-color-dot" style="background:${c.colorHex}"></div><span>${c.colorName}</span><span style="color:var(--samsung-cyan)">${c.price} ج</span></div>`;
+      html += `<div class="preview-color"><div class="preview-color-dot" style="background:${c.colorHex}"></div><span>${c.colorName}</span></div>`;
     });
   }
   html += '</div></div>';
@@ -1185,18 +1136,6 @@ function sortProducts(products, sortType){
         const ta = a.data.createdAt?.toMillis?.() || a.data.sortOrder || 0;
         const tb = b.data.createdAt?.toMillis?.() || b.data.sortOrder || 0;
         return ta - tb;
-      });
-    case 'priceHigh':
-      return sorted.sort((a,b) => {
-        const pa = parseFloat(a.data.price) || parseFloat(a.data.colors?.[0]?.price) || 0;
-        const pb = parseFloat(b.data.price) || parseFloat(b.data.colors?.[0]?.price) || 0;
-        return pb - pa;
-      });
-    case 'priceLow':
-      return sorted.sort((a,b) => {
-        const pa = parseFloat(a.data.price) || parseFloat(a.data.colors?.[0]?.price) || 0;
-        const pb = parseFloat(b.data.price) || parseFloat(b.data.colors?.[0]?.price) || 0;
-        return pa - pb;
       });
     case 'nameAZ':
       return sorted.sort((a,b) => (a.data.name || '').localeCompare(b.data.name || '', 'ar'));
@@ -1284,9 +1223,8 @@ function renderProducts(products, searchQuery = ''){
   if(searchQuery){
     filtered = products.filter(p => {
       const name = (p.data.name || '').toLowerCase();
-      const price = (p.data.price || '').toString().toLowerCase();
       const colors = (p.data.colors || []).map(c => c.colorName).join(' ').toLowerCase();
-      return name.includes(searchQuery) || price.includes(searchQuery) || colors.includes(searchQuery);
+      return name.includes(searchQuery) || colors.includes(searchQuery);
     });
   }
   filtered = sortProducts(filtered, currentSort);
@@ -1310,7 +1248,7 @@ function renderProducts(products, searchQuery = ''){
         <img src="${p.image || p.colors?.[0]?.image || 'https://via.placeholder.com/70'}" alt="${p.name}" onerror="this.src='https://via.placeholder.com/70'">
         <div class="product-info">
           <h4>${orderBadge}${p.name}${mainColorDot}</h4>
-          <p>${p.price || p.colors?.[0]?.price || '0'} جنيه • ${p.colors?.length || 0} ألوان • ${formatDate(p.createdAt)}</p>
+          <p>${p.colors?.length || 0} ألوان • ${formatDate(p.createdAt)}</p>
         </div>
         <div class="product-actions">
           <button class="btn btn-sm btn-warning" onclick="editProduct('${product.id}')" title="تعديل"><i class="fas fa-edit"></i></button>
